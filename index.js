@@ -23,6 +23,9 @@ switch (command) {
     case 'list': 
         list();
         break;
+    case 'view':
+        view(title);
+        break;
     default: console.log('Неизвестная команда.');
 }
 
@@ -52,4 +55,18 @@ function list() {
             console.log(`${i + 1} - ${note.title} - ${note.content}`);
         });
     });
+}
+
+
+function view(title) {
+    fs.readFile('notes.json', (err, data) => {
+        if (err) throw err;
+        const notes = JSON.parse(data);
+        const note = notes.find(note => note.title === title);
+        if (note) {
+            console.log(`${note.title} - ${note.content}`);
+        } else {
+            console.log('Заметка не найдена');
+        }
+    })
 }
